@@ -2,6 +2,8 @@ from common import *
 from logger import logger
 from hotkeys import hotkeys
 
+from time import sleep
+
 class RunePy:
     def __init__(self):
         logger.log("RunePy Initializing")
@@ -15,4 +17,10 @@ class RunePy:
     def test(self):
         print("fwewffwefwerwfer")
 
+    # [TODO] Don't do this... fix it
+    def run(self):
+        while True:
+            sleep(1.0)
+
 bot = RunePy()
+bot.run()

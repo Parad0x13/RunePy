@@ -42,6 +42,20 @@ class Hotkeys:
     def __init__(self):
         logger.log("Hotkeys Initializing")
 
+        self.combinations = []
+
+        #with keyboard.Listener(on_press = self.on_press, on_release = self.on_release) as listener: listener.join()
+        listener = keyboard.Listener(on_press = self.on_press, on_release = self.on_release)
+        listener.start()
+
+    def on_press(self, key):
+        if any ([key in combo for combo in self.combinations]):
+            current.add(key)
+            if any(all(k in current for k in combo) for combo in self.combinations): execute()
+
+    def on_release(self, key):
+        if any([key in combo for combo in self.combinations]): current.remove(key)
+
     def register(self, format, on_activate):
         # [TODO] Get this crap out of my software!!!
         def for_canonical(f): return lambda k: f(l.canonical(k))
@@ -51,7 +65,11 @@ class Hotkeys:
 
         # [TODO] Sanity check on cannonization syntax
         hotkey = keyboard.HotKey(keyboard.HotKey.parse(format), on_activate)
+        #print(hotkey.parse())
+        print(keyboard.HotKey.parse(format))
 
-        with keyboard.Listener(on_press = for_canonical(hotkey.press), on_release = for_canonical(hotkey.release)) as l: l.join()
+        self.combinations.append(hotkey)
+
+        #with keyboard.Listener(on_press = for_canonical(hotkey.press), on_release = for_canonical(hotkey.release)) as l: l.join()
 
 hotkeys = Hotkeys()
