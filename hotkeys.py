@@ -57,6 +57,7 @@ class Hotkeys:
         if any([key in combo for combo in self.combinations]): current.remove(key)
 
     def register(self, format, on_activate):
+        #"""
         # [TODO] Get this crap out of my software!!!
         def for_canonical(f): return lambda k: f(l.canonical(k))
 
@@ -69,7 +70,12 @@ class Hotkeys:
         print(keyboard.HotKey.parse(format))
 
         self.combinations.append(hotkey)
+        # !!! Left off here, need to find out why/how to get this to parse correctly... !!!
 
         #with keyboard.Listener(on_press = for_canonical(hotkey.press), on_release = for_canonical(hotkey.release)) as l: l.join()
+        #"""
+        #print(type(keyboard.GlobalHotKeys))
+        #keyboard.GlobalHotKeys[format] = on_activate
+        #keyboard.GlobalHotKeys.append([format, on_activate])
 
 hotkeys = Hotkeys()
