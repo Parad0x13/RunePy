@@ -6,3 +6,5 @@ class Logger:
 
     def log(self, data, priority = PRIORITY_NORMAL):
         print("[{}]{}".format(priority, data))
+
+logger = Logger()

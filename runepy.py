@@ -1,9 +1,13 @@
 from common import *
-import logger
+from logger import logger
+from hotkeys import hotkeys
 
 class RunePy:
     def __init__(self):
-        self.logger = logger.Logger()
-        self.logger.log("RunePy Initializing")
+        logger.log("RunePy Initializing")
+        hotkeys.register("^!K", self.shutdown)
+
+    def shutdown(self):
+        logger.log("RunePy Shutting Down")
 
 bot = RunePy()
