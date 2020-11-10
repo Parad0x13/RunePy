@@ -43,18 +43,25 @@ class Hotkeys:
         logger.log("Hotkeys Initializing")
 
         self.combinations = []
+        self.current = set()
 
         #with keyboard.Listener(on_press = self.on_press, on_release = self.on_release) as listener: listener.join()
         listener = keyboard.Listener(on_press = self.on_press, on_release = self.on_release)
         listener.start()
 
     def on_press(self, key):
-        if any ([key in combo for combo in self.combinations]):
-            current.add(key)
-            if any(all(k in current for k in combo) for combo in self.combinations): execute()
+        #print("something has been pressed")
+        #print(vars(self.combinations[0]))
+        self.current.add(key)
+        print(self.current)
+        #if any ([key in combo for combo in self.combinations]):
+        #    current.add(key)
+        #    if any(all(k in current for k in combo) for combo in self.combinations): execute()
 
     def on_release(self, key):
-        if any([key in combo for combo in self.combinations]): current.remove(key)
+        #print("something has been released")
+        self.current.remove(key)
+        #if any([key in combo for combo in self.combinations]): current.remove(key)
 
     def register(self, format, on_activate):
         #"""
