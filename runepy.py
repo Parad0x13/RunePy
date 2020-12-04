@@ -7,7 +7,7 @@ from time import sleep
 class RunePy:
     def __init__(self):
         logger.log("RunePy Initializing")
-        hotkeys.register("<ctrl>+<alt>+k", self.shutdown)
+        #hotkeys.register("<ctrl>+<alt>+k", self.shutdown)
         #hotkeys.register("<ctrl>+<alt>+t", self.test)
 
     def shutdown(self):
@@ -19,8 +19,9 @@ class RunePy:
 
     # [TODO] Don't do this... fix it
     def run(self):
-        while True:
-            sleep(1.0)
+        hotkeys.run()
+
+        while True: sleep(1.0)
 
 bot = RunePy()
 bot.run()
