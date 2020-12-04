@@ -7,15 +7,10 @@ from time import sleep
 class RunePy:
     def __init__(self):
         logger.log("RunePy Initializing")
-        #hotkeys.register("<ctrl>+<alt>+k", self.shutdown)
-        #hotkeys.register("<ctrl>+<alt>+t", self.test)
+        hotkeys.register("<ctrl>+<alt>+k", self.shutdown)
 
     def shutdown(self):
-        logger.log("RunePy Shutting Down")
-        #exit()
-
-    def test(self):
-        print("fwewffwefwerwfer")
+        logger.log("RunePy Shutting Down, but not really... this needs to be fixed")
 
     # [TODO] Don't do this... fix it
     def run(self):

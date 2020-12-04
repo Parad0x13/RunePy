@@ -5,40 +5,19 @@ class Hotkeys:
     def __init__(self):
         logger.log("Hotkeys Initiating")
 
-    # [TODO] This is just an example, remove this later
-    def printStuff(self):
-        # Press and release space
-        pynput.keyboard.Controller().press(pynput.keyboard.Key.space)
-        pynput.keyboard.Controller().release(pynput.keyboard.Key.space)
+        self.hotkeys = {}
 
-        # Type a lower case A; this will work even if no key on the
-        # physical keyboard is labelled 'A'
-        pynput.keyboard.Controller().press('a')
-        pynput.keyboard.Controller().release('a')
+    def register(self, hotkey, function):
+        logger.log("Attempting to register the hotkey {}".format(hotkey))
 
-        # Type two upper case As
-        pynput.keyboard.Controller().press('A')
-        pynput.keyboard.Controller().release('A')
-        with pynput.keyboard.Controller().pressed(pynput.keyboard.Key.shift):
-            pynput.keyboard.Controller().press('a')
-            pynput.keyboard.Controller().release('a')
-
-        # Type 'Hello World' using the shortcut type method
-        pynput.keyboard.Controller().type('Hello World')
-
-    def on_press(self, key):
-        try:
-            print('alphanumeric key {0} pressed'.format(key.char))
-        except AttributeError:
-            print('special key {0} pressed'.format(key))
-
-    def on_release(self, key):
-        print('{0} released'.format(key))
-        if key == pynput.keyboard.Key.esc:
-            # Stop listener
-            return False
+        # [TODO] Sanity check that the hotkey doesn't already exist
+        self.hotkeys[hotkey] = function
 
     def run(self):
-        pynput.keyboard.Listener(on_press = self.on_press, on_release = self.on_release).start()
+        # Here we actually register all Global Hotkeys
+
+        logger.log("Starting hotkey listener with {} hotkeys".format(len(self.hotkeys)))
+        listener = pynput.keyboard.GlobalHotKeys(self.hotkeys)
+        listener.start()
 
 hotkeys = Hotkeys()    # [TODO] Consider if this should be global, like logger, or if we should confine it's scope
