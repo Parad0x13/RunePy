@@ -4,6 +4,9 @@ import mouse
 # https://pypi.org/project/PyGetWindow/
 import pygetwindow
 
+import win32gui
+import pyperclip
+
 from common import *
 from logger import logger
 
@@ -11,8 +14,13 @@ from controller_keyboard import controller as keyboard
 
 class Controller_Mouse:
     def __init__(self):
+        #i_desktop_window_id = win32gui.GetDesktopWindow()
+        #self.i_desktop_window_dc = win32gui.GetWindowDC(i_desktop_window_id)
+
         logger.log("Mouse Controller Initiating")
         self.findRunescape()
+
+        keyboard.registerHotkey("ctrl+alt+c", self.get_cursor_info, "Grab Cursor Info")
 
     def findRunescape(self):
         rs = pygetwindow.getWindowsWithTitle('RuneScape')
@@ -33,6 +41,7 @@ class Controller_Mouse:
     # Or at least not the actual game window itself that is
     # It also seems to account for the "shadow" of the window as well
     # This may not really turn out to be a real issue however...
+    # [TODO] Fix a bug where if you resize this does not update dynamically
     def coords(self):
         retVal = []
         retVal.append(self.rs.left)
@@ -56,5 +65,32 @@ class Controller_Mouse:
 
     def get_position(self):
         return mouse.get_position()
+
+    def get_pixel_colour(self, i_x, i_y):
+        i_desktop_window_id = win32gui.GetDesktopWindow()
+        i_desktop_window_dc = win32gui.GetWindowDC(i_desktop_window_id)
+        long_colour = win32gui.GetPixel(i_desktop_window_dc, i_x, i_y)
+        #long_colour = win32gui.GetPixel(self.i_desktop_window_dc, i_x, i_y)
+        i_colour = int(long_colour)
+        win32gui.ReleaseDC(i_desktop_window_id, i_desktop_window_dc)
+        #return hex(i_colour)
+        return i_colour
+
+    def get_cursor_info(self, xDelta = 0, yDelta = 0):
+        p = self.get_position()
+
+        #string = "{} = {}".format(p, self.get_pixel_colour(p[0], p[1]))
+
+        # Beg Experimenting
+        return self.get_pixel_colour(p[0] + xDelta, p[1] + yDelta)##############
+
+        string = "{} = {}".format(p, self.get_pixel_colour(p[0] + xDelta, p[1] + yDelta))
+
+        # End Experimenting
+
+        #pyperclip.copy(string)
+        #spam = pyperclip.paste()
+
+        return string
 
 controller = Controller_Mouse()
