@@ -27,6 +27,7 @@ class RunePy:
             #sleep(3.0)
             # 23 pixels high, down 36 for first black
 
+            '''         
             coords = mouse.coords()
             img = ImageGrab.grab(bbox = (coords[0], coords[1], coords[0] + coords[2], coords[1] + coords[3]))
 
@@ -36,6 +37,7 @@ class RunePy:
             x = mouseLoc[0] - coords[0] + xDelta
             y = mouseLoc[1] - coords[1] + yDelta
             point = img.getpixel((x, y))
+            '''
 
             # [NOTE] Aaron came up with this, I'm not that smart
             if sum(point) == 0:
@@ -52,11 +54,12 @@ class RunePy:
                     totalB += sum(point)
 
                 total = int("{}{}".format(totalA, totalB))
-                print(total)
+                if total != 0:
+                    print(total)
 
-            desktop = os.path.expanduser("~/Desktop")
+            '''desktop = os.path.expanduser("~/Desktop")
             path = "{}/test.png".format(desktop)
-            img.save(path)
+            img.save(path)'''
 
             sleep(0.01)
 

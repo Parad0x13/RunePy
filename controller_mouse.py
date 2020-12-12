@@ -4,7 +4,6 @@ import mouse
 # https://pypi.org/project/PyGetWindow/
 import pygetwindow
 
-import win32gui
 import pyperclip
 
 from common import *
