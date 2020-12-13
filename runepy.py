@@ -8,8 +8,6 @@ from controller_mouse import controller as mouse
 from module_mining import module as mining
 
 import os
-from PIL import ImageGrab
-from PIL import Image
 
 # [TODO] Add a kill switch to all running macros
 class RunePy:
@@ -24,44 +22,11 @@ class RunePy:
     # [TODO] Don't do this... fix it
     def run(self):
         while True:
-            #sleep(3.0)
-            # 23 pixels high, down 36 for first black
+            val = mouse.get_overlay_calculation()
+            if val[0] is not None:
+                print("Overlay {} = {}".format(val[0], val[1]))
 
-            '''         
-            coords = mouse.coords()
-            img = ImageGrab.grab(bbox = (coords[0], coords[1], coords[0] + coords[2], coords[1] + coords[3]))
-
-            xDelta = 0
-            yDelta = 36
-            mouseLoc = mouse.get_position()
-            x = mouseLoc[0] - coords[0] + xDelta
-            y = mouseLoc[1] - coords[1] + yDelta
-            point = img.getpixel((x, y))
-            '''
-
-            # [NOTE] Aaron came up with this, I'm not that smart
-            if sum(point) == 0:
-                length = 30
-
-                totalA = 0
-                for n in range(-length, length):
-                    point = img.getpixel((x + n, y + 14))
-                    totalA += sum(point)
-
-                totalB = 0
-                for n in range(-length, length):
-                    point = img.getpixel((x + n, y + 10))
-                    totalB += sum(point)
-
-                total = int("{}{}".format(totalA, totalB))
-                if total != 0:
-                    print(total)
-
-            '''desktop = os.path.expanduser("~/Desktop")
-            path = "{}/test.png".format(desktop)
-            img.save(path)'''
-
-            sleep(0.01)
+            sleep(0.1)
 
 bot = RunePy()
 bot.run()
