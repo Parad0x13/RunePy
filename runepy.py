@@ -8,6 +8,7 @@ from runepy_controller import mouse
 from runepy_module import mining
 
 import os
+import sys
 
 # [TODO] Add a kill switch to all running macros
 class RunePy:
@@ -16,8 +17,10 @@ class RunePy:
 
         keyboard.registerHotkey("ctrl+alt+s", self.shutdown, "Shutdown")
 
+    # [TODO] Make this threadsafe so that logs and other files won't be affected
     def shutdown(self):
-        logger.log("RunePy Shutting Down, but not really... this needs to be fixed")
+        logger.log("RunePy is shutting down in a non-safe way. Files may be affected")
+        os._exit(1)
 
     # [TODO] Don't do this... fix it
     def run(self):
