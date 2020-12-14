@@ -6,6 +6,7 @@ from runepy_controller import keyboard
 from runepy_controller import mouse
 
 from runepy_module import mining
+from runepy_module import camera
 
 import os
 import sys
