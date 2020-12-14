@@ -21,17 +21,18 @@ def findRunescape():
     global coords
     rs = pygetwindow.getWindowsWithTitle('RuneScape')
 
-    if len(rs) == 0:
+    valid = None
+    for n in rs:
+        if n.title == "RuneScape": valid = n
+    rs = valid
+
+    if rs == None:
         logger.log("Could not find RuneScape", priority = PRIORITY_ERROR)
         exit()
-    elif len(rs) == 1:
-        logger.log("Found RuneScape")
-        rs = rs[0]
-        rs.restore()
-        rs.activate()
-    else:
-        logger.log("Found multiple windows of RuneScape", priority = PRIORITY_ERROR)
-        exit()
+
+    logger.log("Found RuneScape")
+    rs.restore()
+    rs.activate()
 
     coords.append(rs.left)
     coords.append(rs.top)
