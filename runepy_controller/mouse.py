@@ -214,20 +214,18 @@ def get_overlay_calculation():
 
     return (val, tooltip)
 
+# [TODO] Get the dang blasted coordinate system ironed out for pete's sake!
 def get_cursor_info(xDelta = 0, yDelta = 0):
     p = get_position()
+    img = get_screenshot()
+    pixel = img.getpixel((p[0], p[1]))
 
-    #string = "{} = {}".format(p, get_pixel_colour(p[0], p[1]))
+    string = "{} = {}".format(p, pixel)
+    print(string)
 
-    # Beg Experimenting
-    return get_pixel_colour(p[0] + xDelta, p[1] + yDelta)##############
 
-    string = "{} = {}".format(p, get_pixel_colour(p[0] + xDelta, p[1] + yDelta))
-
-    # End Experimenting
-
-    #pyperclip.copy(string)
-    #spam = pyperclip.paste()
+    pyperclip.copy(string)
+    spam = pyperclip.paste()
 
     return string
 
