@@ -236,3 +236,38 @@ def get_cursor_info(xDelta = 0, yDelta = 0):
 logger.log("Mouse Controller Initiating")
 findRunescape()
 keyboard.registerHotkey("ctrl+alt+c", get_cursor_info, "Grab Cursor Info")
+
+import time
+def testing():
+    while True:
+        try:
+            img = get_screenshot()
+            vaultX = []
+            vaultY = []
+            r = 165
+            g = 148
+            b = 51
+            size = 0.05
+            for y in range(img.height):
+                for x in range(img.width):
+                    pixel = img.getpixel((x, y))
+                    if pixel[0] > (r * (1.0 - size)) and pixel[0] < (r * (1.0 + size)):
+                        if pixel[1] > (g * (1.0 - size)) and pixel[1] < (g * (1.0 + size)):
+                            if pixel[2] > (b * (1.0 - size)) and pixel[2] < (b * (1.0 + size)):
+                                vaultX.append(x)
+                                vaultY.append(y)
+            print(len(vaultX))
+            xPrime = (sum(vaultX) / len(vaultX)) + coords[0]
+            yPrime = (sum(vaultY) / len(vaultY)) + coords[1]
+            move(xPrime, yPrime)
+
+            time.sleep(1.0)
+            value = get_overlay_calculation()
+            print("is")
+            print(value)
+            if value[1] == "Mine Copper rock":
+                mouse.click("left")
+                time.sleep(1.0)
+        except: pass
+
+keyboard.registerHotkey("ctrl+alt+a", testing, "Testing...")
