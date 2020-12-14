@@ -31,8 +31,12 @@ def findRunescape():
         exit()
 
     logger.log("Found RuneScape")
-    rs.restore()
-    rs.activate()
+    if rs.isMinimized: rs.restore()
+    else: rs.activate()
+
+    #rs.restore()
+    #rs.maximize()
+    #rs.activate()
 
     coords.append(rs.left)
     coords.append(rs.top)
