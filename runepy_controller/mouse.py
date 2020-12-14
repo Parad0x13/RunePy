@@ -65,16 +65,21 @@ def get_pixel_color_win32gui(i_x, i_y):
     #return hex(i_colour)
     return i_colour
 
+def get_screenshot():
+    global coords
+
+    # [TODO] I don't like how it's grabbing the entire screen, find a way to optimize this
+    return ImageGrab.grab(bbox = (coords[0], coords[1], coords[0] + coords[2], coords[1] + coords[3]))
+
 # [TODO] Find a way to factor out getting the pixel color without recalculating ImageGrab.grab()
 def get_custom_overlay_color_value_in_range_PIL(xDelta, yDelta, goal):
     global coords
 
+    img = get_screenshot()
+
     mouseLoc = mouse.get_position()
     x = mouseLoc[0] - coords[0] + xDelta
     y = mouseLoc[1] - coords[1] + yDelta
-
-    # [TODO] I don't like how it's grabbing the entire screen, find a way to optimize this
-    img = ImageGrab.grab(bbox = (coords[0], coords[1], coords[0] + coords[2], coords[1] + coords[3]))
 
     # We don't want to crash if the mouse goes outside the bounds of the screen
     if x < coords[0] or x >= coords[2] or y < coords[1] or y >= coords[3]: return
