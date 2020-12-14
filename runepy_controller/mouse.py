@@ -34,6 +34,7 @@ def findRunescape():
     if rs.isMinimized: rs.restore()
     else: rs.activate()
 
+    coords = []
     coords.append(rs.left)
     coords.append(rs.top)
     coords.append(rs.width)
@@ -42,9 +43,12 @@ def findRunescape():
 # [TODO] Implement xRange, yRange, and durationRange
 # Possibly rename them to something more approriate mathematically? Smear?
 def move(x, y, rel = False, duration = 0.1, xRange = 0, yRange = 0, durationRange = 0):
+    findRunescape()
     global coords
 
-    mouse.move(x, y, absolute = not rel, duration = duration)
+    print(coords)
+    # [TODO] Fix this coordinate system complication across all functions
+    mouse.move(coords[0] + x, coords[1] + y, absolute = not rel, duration = duration)
 
 # Change this to click(self, x = -1, y = -1, button = "left", holdPosition = True)
 # Where -1 implies current position by default allowing movement to location by default
@@ -52,6 +56,8 @@ def move(x, y, rel = False, duration = 0.1, xRange = 0, yRange = 0, durationRang
 def click(button = "left"):
     mouse.click(button)
 
+# [TODO] Find out if this returns absolute or relative to window focus
+# I think it's absolute screen, which can become an issue
 def get_position():
     return mouse.get_position()
 
