@@ -1,11 +1,11 @@
-from logger import logger
+from runepy_common import logger
 
 from time import sleep
 
-from controller_keyboard import controller as keyboard
-from controller_mouse import controller as mouse
+from runepy_controller import keyboard
+from runepy_controller import mouse
 
-from module_mining import module as mining
+from runepy_module import mining
 
 import os
 
