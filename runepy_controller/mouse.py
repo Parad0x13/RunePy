@@ -34,10 +34,6 @@ def findRunescape():
     if rs.isMinimized: rs.restore()
     else: rs.activate()
 
-    #rs.restore()
-    #rs.maximize()
-    #rs.activate()
-
     coords.append(rs.left)
     coords.append(rs.top)
     coords.append(rs.width)
@@ -79,6 +75,9 @@ def get_custom_overlay_color_value_in_range_PIL(xDelta, yDelta, goal):
 
     # [TODO] I don't like how it's grabbing the entire screen, find a way to optimize this
     img = ImageGrab.grab(bbox = (coords[0], coords[1], coords[0] + coords[2], coords[1] + coords[3]))
+
+    # We don't want to crash if the mouse goes outside the bounds of the screen
+    if x < coords[0] or x >= coords[2] or y < coords[1] or y >= coords[3]: return
 
     rgb = img.getpixel((x, y))
 
