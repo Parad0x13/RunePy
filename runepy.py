@@ -27,8 +27,6 @@ class RunePy:
     # [TODO] Don't do this... fix it
     def run(self):
         while self.running:
-            #if not self.running: break
-
             val = mouse.get_overlay_calculation()
             if val[0] is not None:
                 print("Overlay {} = {}".format(val[0], val[1]))
