@@ -13,18 +13,22 @@ import sys
 # [TODO] Add a kill switch to all running macros
 class RunePy:
     def __init__(self):
+        self.running = True
+
         logger.log("RunePy Initializing")
 
         keyboard.registerHotkey("ctrl+alt+s", self.shutdown, "Shutdown")
 
     # [TODO] Make this threadsafe so that logs and other files won't be affected
     def shutdown(self):
-        logger.log("RunePy is shutting down in a non-safe way. Files may be affected")
-        os._exit(1)
+        logger.log("RunePy is shutting down")
+        self.running = False
 
     # [TODO] Don't do this... fix it
     def run(self):
-        while True:
+        while self.running:
+            #if not self.running: break
+
             val = mouse.get_overlay_calculation()
             if val[0] is not None:
                 print("Overlay {} = {}".format(val[0], val[1]))
