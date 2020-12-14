@@ -1,18 +1,16 @@
 import os
-import time
 
 from runepy_common import globals
 
-def epoch():
-    return str(time.time()).split(".")[0]
-
-def log(data, priority = globals.PRIORITY_NORMAL, verbose = False):
+def log(data, priority = globals.PRIORITY_NORMAL, verbose = True):
     string = "[{}]{}".format(priority, data)
 
     if verbose:
-        desktop = os.path.expanduser("~/Desktop")
-        logFile = "{}\\{}_RunePy_Log.txt".format(desktop, epoch())
+        local = "./local_logs"
+        logFile = "{}\\{}_RunePy_Log.txt".format(local, globals.epoch())
+        if not os.path.exists(local):
+            os.makedirs(local)
         with open(logFile, "a") as fh:
-            fh.write("{} {}\n".format(epoch(), string))
+            fh.write("{} {}\n".format(globals.epoch(), string))
 
     print(string)
