@@ -10,6 +10,7 @@ import pygetwindow
 
 # Coords shows the shadow of the window as well
 # [TODO] Fix a bug where if you resize this does not update dynamically
+coords = []
 def findRunescape():
     rs = pygetwindow.getWindowsWithTitle('RuneScape')
 
@@ -26,14 +27,15 @@ def findRunescape():
     if rs.isMinimized: rs.restore()
     else: rs.activate()
 
-    globals.coords = []
-    globals.coords.append(rs.left)
-    globals.coords.append(rs.top)
-    globals.coords.append(rs.width)
-    globals.coords.append(rs.height)
+    global coords
+    coords = []
+    coords.append(rs.left)
+    coords.append(rs.top)
+    coords.append(rs.width)
+    coords.append(rs.height)
 
 def get_screenshot():
-    coords = globals.coords
+    global coords
 
     # [TODO] I don't like how it's grabbing the entire screen, find a way to optimize this
     return ImageGrab.grab(bbox = (coords[0], coords[1], coords[0] + coords[2], coords[1] + coords[3]))

@@ -12,11 +12,9 @@ from runepy_module import screen
 # Possibly rename them to something more approriate mathematically? Smear?
 def move(x, y, rel = False, duration = 0.1, xRange = 0, yRange = 0, durationRange = 0):
     findRunescape()
-    coords = globals.coords
 
-    print(coords)
     # [TODO] Fix this coordinate system complication across all functions
-    mouse.move(coords[0] + x, coords[1] + y, absolute = not rel, duration = duration)
+    mouse.move(screen.coords[0] + x, screen.coords[1] + y, absolute = not rel, duration = duration)
 
 # Change this to click(self, x = -1, y = -1, button = "left", holdPosition = True)
 # Where -1 implies current position by default allowing movement to location by default
@@ -31,16 +29,14 @@ def get_position():
 
 # [TODO] Find a way to factor out getting the pixel color without recalculating ImageGrab.grab()
 def get_custom_overlay_color_value_in_range_PIL(xDelta, yDelta, goal):
-    coords = globals.coords
-
     img = screen.get_screenshot()
 
     mouseLoc = mouse.get_position()
-    x = mouseLoc[0] - coords[0] + xDelta
-    y = mouseLoc[1] - coords[1] + yDelta
+    x = mouseLoc[0] - screen.coords[0] + xDelta
+    y = mouseLoc[1] - screen.coords[1] + yDelta
 
     # We don't want to crash if the mouse goes outside the bounds of the screen
-    if x < coords[0] or x >= coords[2] or y < coords[1] or y >= coords[3]: return
+    if x < screen.coords[0] or x >= screen.coords[2] or y < screen.coords[1] or y >= screen.coords[3]: return
 
     rgb = img.getpixel((x, y))
 
@@ -181,7 +177,6 @@ def get_cursor_info(xDelta = 0, yDelta = 0):
     string = "{} = {}".format(p, pixel)
     print(string)
 
-
     pyperclip.copy(string)
     spam = pyperclip.paste()
 
@@ -213,8 +208,8 @@ def testing():
                                 vaultX.append(x)
                                 vaultY.append(y)
             print(len(vaultX))
-            xPrime = (sum(vaultX) / len(vaultX)) + coords[0]
-            yPrime = (sum(vaultY) / len(vaultY)) + coords[1]
+            xPrime = (sum(vaultX) / len(vaultX)) + screen.coords[0]
+            yPrime = (sum(vaultY) / len(vaultY)) + screen.coords[1]
             move(xPrime, yPrime)
 
             time.sleep(1.0)
