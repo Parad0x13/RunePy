@@ -18,7 +18,7 @@ keyboard.registerHotkey("ctrl+alt+m", mineOre, "Ore Mining")
 
 # This is a horrible search for mining ore rockertunities
 import time
-def testing():
+def executeRockertunities(goal = "Mine Copper rock"):
     while True:
         try:
             img = screen.get_screenshot()
@@ -45,9 +45,9 @@ def testing():
             value = get_overlay_calculation()
             print("is")
             print(value)
-            if value[1] == "Mine Copper rock":
+            if value[1] == goal:
                 mouse.click("left")
                 time.sleep(1.0)
         except: pass
 
-keyboard.registerHotkey("ctrl+alt+a", testing, "Testing...")
+keyboard.registerHotkey("ctrl+alt+a", testing, "Executing Rockertunities")
