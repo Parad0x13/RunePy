@@ -1,50 +1,18 @@
 # https://github.com/boppreh/mouse#api
 import mouse
-
-# https://pypi.org/project/PyGetWindow/
 import pygetwindow
-
-from PIL import ImageGrab
-from PIL import Image
-
 import pyperclip
-
+import PIL
 from runepy_common import logger
 from runepy_common import globals
-
 from runepy_controller import keyboard
-
-# Coords shows the shadow of the window as well
-# [TODO] Fix a bug where if you resize this does not update dynamically
-coords = []
-def findRunescape():
-    global coords
-    rs = pygetwindow.getWindowsWithTitle('RuneScape')
-
-    valid = None
-    for n in rs:
-        if n.title == "RuneScape": valid = n
-    rs = valid
-
-    if rs == None:
-        logger.log("Could not find RuneScape", priority = PRIORITY_ERROR)
-        exit()
-
-    logger.log("Found RuneScape")
-    if rs.isMinimized: rs.restore()
-    else: rs.activate()
-
-    coords = []
-    coords.append(rs.left)
-    coords.append(rs.top)
-    coords.append(rs.width)
-    coords.append(rs.height)
+from runepy_module import screen
 
 # [TODO] Implement xRange, yRange, and durationRange
 # Possibly rename them to something more approriate mathematically? Smear?
 def move(x, y, rel = False, duration = 0.1, xRange = 0, yRange = 0, durationRange = 0):
     findRunescape()
-    global coords
+    coords = globals.coords
 
     print(coords)
     # [TODO] Fix this coordinate system complication across all functions
@@ -61,27 +29,11 @@ def click(button = "left"):
 def get_position():
     return mouse.get_position()
 
-def get_pixel_color_win32gui(i_x, i_y):
-    i_desktop_window_id = win32gui.GetDesktopWindow()
-    i_desktop_window_dc = win32gui.GetWindowDC(i_desktop_window_id)
-    long_colour = win32gui.GetPixel(i_desktop_window_dc, i_x, i_y)
-    #long_colour = win32gui.GetPixel(i_desktop_window_dc, i_x, i_y)
-    i_colour = int(long_colour)
-    win32gui.ReleaseDC(i_desktop_window_id, i_desktop_window_dc)
-    #return hex(i_colour)
-    return i_colour
-
-def get_screenshot():
-    global coords
-
-    # [TODO] I don't like how it's grabbing the entire screen, find a way to optimize this
-    return ImageGrab.grab(bbox = (coords[0], coords[1], coords[0] + coords[2], coords[1] + coords[3]))
-
 # [TODO] Find a way to factor out getting the pixel color without recalculating ImageGrab.grab()
 def get_custom_overlay_color_value_in_range_PIL(xDelta, yDelta, goal):
-    global coords
+    coords = globals.coords
 
-    img = get_screenshot()
+    img = screen.get_screenshot()
 
     mouseLoc = mouse.get_position()
     x = mouseLoc[0] - coords[0] + xDelta
@@ -223,7 +175,7 @@ def get_overlay_calculation():
 # [TODO] Get the dang blasted coordinate system ironed out for pete's sake!
 def get_cursor_info(xDelta = 0, yDelta = 0):
     p = get_position()
-    img = get_screenshot()
+    img = screen.get_screenshot()
     pixel = img.getpixel((p[0], p[1]))
 
     string = "{} = {}".format(p, pixel)
@@ -238,14 +190,14 @@ def get_cursor_info(xDelta = 0, yDelta = 0):
 #i_desktop_window_id = win32gui.GetDesktopWindow()
 #i_desktop_window_dc = win32gui.GetWindowDC(i_desktop_window_id)
 logger.log("Mouse Controller Initiating")
-findRunescape()
+screen.findRunescape()
 keyboard.registerHotkey("ctrl+alt+c", get_cursor_info, "Grab Cursor Info")
 
 import time
 def testing():
     while True:
         try:
-            img = get_screenshot()
+            img = screen.get_screenshot()
             vaultX = []
             vaultY = []
             r = 165
